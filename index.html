@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>O Guardião de Vespera</title>
+
+    <style>
+        /* =========================
+           RESET
+        ========================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #050505;
+            color: #ffffff;
+            font-family: Arial, Helvetica, sans-serif;
+            overflow-x: hidden;
+        }
+
+
+        /* =========================
+           FUNDO
+        ========================= */
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -2;
+            background:
+                linear-gradient(
+                    rgba(0, 0, 0, 0.72),
+                    rgba(0, 0, 0, 0.96)
+                ),
+                url("https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=2000&q=80");
+            background-size: cover;
+            background-position: center;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 75px;
+            padding: 0 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+        }
+
+        .logo {
+            color: #d5a83b;
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 6px;
+        }
+
+        nav {
+            display: flex;
+            gap: 35px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #d5a83b;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+            padding: 120px 8% 80px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: heroAppear 1.2s ease;
+        }
+
+        .small-title {
+            color: #d5a83b;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(55px, 9vw, 120px);
+            line-height: 0.9;
+            font-weight: 900;
+            letter-spacing: -4px;
+        }
+
+        .hero h1 span {
+            display: block;
+            color: #d5a83b;
+        }
+
+        .description {
+            max-width: 600px;
+            color: #b5b5b5;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-top: 35px;
+        }
+
+        /* =========================
+           BOTÃO
+        ========================= */
+
+        .main-button {
+            margin-top: 35px;
+            padding: 17px 30px;
+            border: 1px solid #d5a83b;
+            background: #d5a83b;
+            color: #050505;
+            font-weight: 900;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .main-button:hover {
+            background: transparent;
+            color: #d5a83b;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(213, 168, 59, 0.15);
+        }
+
+        .scroll {
+            position: absolute;
+            bottom: 35px;
+            left: 8%;
+            color: #777;
+            font-size: 10px;
+            letter-spacing: 3px;
+        }
+
+        /* =========================
+           JORNADA
+        ========================= */
+
+        .journey {
+            min-height: 100vh;
+            padding: 130px 7%;
+            background:
+                linear-gradient(
+                    rgba(3, 3, 3, 0.96),
+                    rgba(3, 3, 3, 0.98)
+                );
+        }
+
+        .section-header {
+            text-align: center;
+        }
+
+        .section-header p {
+            color: #d5a83b;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 5px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(35px, 6vw, 70px);
+            margin: 15px 0;
+            font-weight: 900;
+        }
+
+        .section-header span {
+            color: #777;
+            font-size: 15px;
+        }
+
+
+        /* =========================
+           PROGRESSO
+        ========================= */
+
+        .progress-area {
+            max-width: 1000px;
+            margin: 70px auto 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #555;
+            font-size: 13px;
+        }
+
+        #phaseNumber {
+            color: #d5a83b;
+            font-weight: bold;
+        }
+
+        .progress {
+            width: 100%;
+            height: 3px;
+            background: #222;
+        }
+
+        .progress-bar {
+            width: 8.33%;
+            height: 100%;
+            background: #d5a83b;
+            transition: width 0.4s ease;
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .story-wrapper {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .story-card {
+            width: 850px;
+            min-height: 440px;
+            padding: 55px;
+            display: flex;
+            align-items: center;
+            gap: 45px;
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.07),
+                    rgba(255,255,255,0.015)
+                );
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 30px 100px rgba(0,0,0,0.6);
+            animation: cardAppear 0.5s ease;
+        }
+
+        .phase-number {
+            flex-shrink: 0;
+            color: rgba(213, 168, 59, 0.13);
+            font-size: 110px;
+            font-weight: 900;
+        }
+
+        .story {
+            flex: 1;
+        }
+
+        .phase-name {
+            color: #d5a83b;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+
+        .story h3 {
+            font-size: 38px;
+            margin: 15px 0 25px;
+            line-height: 1.1;
+        }
+
+        .phase-text {
+            color: #a8a8a8;
+            line-height: 1.9;
+            font-size: 16px;
+        }
+
+        .quote {
+            margin-top: 25px;
+            padding-left: 18px;
+            border-left: 2px solid #d5a83b;
+            color: #dddddd;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           SETAS
+        ========================= */
+
+        .arrow {
+            flex-shrink: 0;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: 1px solid #444;
+            background: rgba(255,255,255,0.04);
+            color: #ffffff;
+            font-size: 25px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .arrow:hover {
+            background: #d5a83b;
+            color: #000000;
+            border-color: #d5a83b;
+        }
+
+        /* =========================
+           DOTS
+        ========================= */
+
+        .dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            margin-top: 30px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #333;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            width: 28px;
+            border-radius: 10px;
+            background: #d5a83b;
+        }
+
+        .keyboard {
+            text-align: center;
+            color: #444;
+            font-size: 11px;
+            margin-top: 20px;
+        }
+
+        /* =========================
+           HERÓI
+        ========================= */
+
+        .hero-section {
+            min-height: 80vh;
+            padding: 120px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 80px;
+            background: #050505;
+        }
+
+        .hero-info {
+            max-width: 600px;
+        }
+
+        .hero-info h2 {
+            font-size: clamp(50px, 8vw, 100px);
+            line-height: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .hero-info h2 span {
+            display: block;
+            color: #d5a83b;
+        }
+
+        .hero-info p:not(.small-title) {
+            color: #999;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+
+        /* =========================
+           IMAGEM DO PERSONAGEM
+        ========================= */
+
+        .character-image-container {
+            width: 300px;
+            height: 300px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid rgba(213,168,59,0.5);
+            box-shadow: 0 0 50px rgba(213,168,59,0.2);
+            overflow: hidden;
+            background-color: #111; /* Cor de fundo caso a imagem demore a carregar */
+        }
+
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* =========================
+           FINAL
+        ========================= */
+
+        .ending {
+            min-height: 75vh;
+            padding: 120px 7%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(213,168,59,0.08),
+                    transparent 60%
+                );
+        }
+
+        .ending h2 {
+            font-size: clamp(50px, 8vw, 100px);
+            line-height: 0.9;
+            margin: 15px 0 30px;
+        }
+
+        .ending h2 span {
+            display: block;
+            color: #d5a83b;
+        }
+
+        .ending > p:not(.small-title) {
+            color: #888;
+            max-width: 550px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            min-height: 80px;
+            padding: 25px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #151515;
+            color: #444;
+            font-size: 12px;
+        }
+
+        /* =========================
+           ANIMAÇÕES
+        ========================= */
+
+        @keyframes heroAppear {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 900px) {
+            .story-card {
+                width: 90%;
+                padding: 40px;
+            }
+            .phase-number {
+                font-size: 75px;
+            }
+            .hero-section {
+                padding: 100px 7%;
+            }
+            
+            /* Ajuste da imagem para Tablet */
+            .character-image-container {
+                width: 220px;
+                height: 220px;
+            }
+        }
+
+
+        /* =========================
+           CELULAR
+        ========================= */
+
+        @media (max-width: 650px) {
+            .header {
+                height: 65px;
+                padding: 0 5%;
+            }
+            .logo {
+                font-size: 17px;
+                letter-spacing: 4px;
+            }
+            nav {
+                display: none;
+            }
+            .hero {
+                padding: 100px 7%;
+            }
+            .hero h1 {
+                font-size: 55px;
+                letter-spacing: -2px;
+            }
+            .description {
+                font-size: 15px;
+            }
+            .scroll {
+                left: 7%;
+            }
+            .journey {
+                padding: 100px 5%;
+            }
+            .section-header h2 {
+                font-size: 36px;
+            }
+            .story-wrapper {
+                gap: 5px;
+            }
+            .story-card {
+                width: calc(100% - 70px);
+                min-height: 520px;
+                padding: 30px 22px;
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            .phase-number {
+                font-size: 60px;
+            }
+            .story h3 {
+                font-size: 27px;
+            }
+            .phase-text {
+                font-size: 14px;
+                line-height: 1.7;
+            }
+            .quote {
+                text-align: left;
+                font-size: 13px;
+            }
+            .arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .hero-section {
+                min-height: auto;
+                padding: 100px 7%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .hero-info h2 {
+                font-size: 60px;
+            }
+
+            /* Ajuste da imagem para Celular */
+            .character-image-container {
+                align-self: center;
+                width: 180px;
+                height: 180px;
+            }
+
+            .ending {
+                padding: 100px 7%;
+            }
+            footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FUNDO -->
+    <div class="background"></div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">
+            VESPERA
+        </div>
+        <nav>
+            <a href="#inicio">Início</a>
+            <a href="#jornada">Jornada</a>
+            <a href="#heroi">Herói</a>
+        </nav>
+    </header>
+
+
+    <!-- INÍCIO -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <p class="small-title">
+                UMA HISTÓRIA ORIGINAL
+            </p>
+            <h1>
+                O GUARDIÃO
+                <span>DE VESPERA</span>
+            </h1>
+            <p class="description">
+                Uma cidade mergulhada na corrupção.
+                Um jovem marcado por uma tragédia.
+                E uma escolha que mudará sua vida para sempre.
+            </p>
+            <button id="startButton" class="main-button">
+                COMEÇAR A JORNADA
+            </button>
+        </div>
+        <div class="scroll">
+            ↓ ROLE PARA BAIXO
+        </div>
+    </section>
+
+
+    <!-- JORNADA -->
+    <section id="jornada" class="journey">
+        <div class="section-header">
+            <p>12 ETAPAS</p>
+            <h2>
+                A JORNADA DO HERÓI
+            </h2>
+            <span>
+                Uma vida comum pode esconder uma grande história.
+            </span>
+        </div>
+
+        <!-- PROGRESSO -->
+        <div class="progress-area">
+            <div class="progress-info">
+                <span id="phaseNumber">01</span>
+                <span>/ 12</span>
+            </div>
+            <div class="progress">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- HISTÓRIA -->
+        <div class="story-wrapper">
+            <button id="previousButton" class="arrow">←</button>
+
+            <article class="story-card">
+                <div class="phase-number" id="bigNumber">01</div>
+                <div class="story">
+                    <p id="phaseName" class="phase-name">O MUNDO COMUM</p>
+                    <h3 id="phaseTitle">Uma cidade esquecida</h3>
+                    <p id="phaseText" class="phase-text"></p>
+                    <div id="quote" class="quote"></div>
+                </div>
+            </article>
+
+            <button id="nextButton" class="arrow">→</button>
+        </div>
+
+        <!-- INDICADORES -->
+        <div id="dots" class="dots"></div>
+
+        <p class="keyboard">
+            Use ← → no teclado para navegar
+        </p>
+    </section>
+
+
+    <!-- HERÓI -->
+    <section id="heroi" class="hero-section">
+        <div class="hero-info">
+            <p class="small-title">
+                O PROTAGONISTA
+            </p>
+            <h2>
+                GABRIEL
+                <span>VALE</span>
+            </h2>
+            <p>
+                Gabriel não nasceu com poderes.
+                Não recebeu uma fortuna.
+                Não foi escolhido por uma profecia.
+            </p>
+            <p>
+                Ele é apenas alguém que decidiu que não
+                ficaria parado enquanto sua cidade era
+                destruída pela corrupção.
+            </p>
+        </div>
+
+        <!-- CONTAINER DA IMAGEM DO PERSONAGEM -->
+        <div class="character-image-container">
+            <!-- COLOQUE O LINK OU NOME DA SUA IMAGEM NO SRC ABAIXO -->
+            <img src="heroi.jpg" alt="Rosto do Personagem" class="character-image">
+        </div>
+    </section>
+
+
+    <!-- FINAL -->
+    <section class="ending">
+        <p class="small-title">
+            O FIM É APENAS O COMEÇO
+        </p>
+        <h2>
+            A LENDA
+            <span>CONTINUA</span>
+        </h2>
+        <p>
+            Enquanto Vespera tiver sombras,
+            haverá alguém disposto a enfrentá-las.
+        </p>
+        <button id="topButton" class="main-button">
+            VOLTAR AO INÍCIO
+        </button>
+    </section>
+
+    <footer>
+        <span>
+            © 2026 O Guardião de Vespera
+        </span>
+        <span>
+            Uma história original
+        </span>
+    </footer>
+
+
+    <script>
+        /* ==========================================
+           JORNADA DO HERÓI
+           O GUARDIÃO DE VESPERA
+        ========================================== */
+
+        const fases = [
+            /* 01 */
+            {
+                numero: "01",
+                nome: "O MUNDO COMUM",
+                titulo: "A cidade antes da escuridão",
+                texto: `Gabriel Vale vivia em Vespera, uma cidade enorme onde os prédios escondiam os becos e as luzes escondiam aquilo que acontecia durante a noite.<br><br>Durante o dia, Gabriel trabalhava em uma pequena oficina. À noite, costumava observar a cidade da janela de seu apartamento.<br><br>Ele ainda não sabia, mas aquela vida tranquila estava prestes a desaparecer.`,
+                frase: "Todo herói começa como alguém comum."
+            },
+            /* 02 */
+            {
+                numero: "02",
+                nome: "O CHAMADO À AVENTURA",
+                titulo: "A noite que mudou tudo",
+                texto: `Em uma noite chuvosa, Gabriel voltava para casa quando ouviu uma explosão em um prédio abandonado.<br><br>Ele se aproximou para descobrir o que havia acontecido.<br><br>Dentro do prédio, encontrou homens usando um símbolo desconhecido: um círculo dividido por três linhas.<br><br>Gabriel percebeu que aquilo não era apenas um crime comum.`,
+                frase: "Alguma coisa estava começando."
+            },
+            /* 03 */
+            {
+                numero: "03",
+                nome: "A RECUSA DO CHAMADO",
+                titulo: "Fingir que nada aconteceu",
+                texto: `Gabriel decidiu não se envolver.<br><br>Ele pensou que aquilo deveria ser problema da polícia.<br><br>Durante alguns dias, tentou voltar à sua rotina normal.<br><br>Porém, começou a perceber que o mesmo símbolo aparecia em diferentes lugares da cidade.<br><br>Quanto mais tentava esquecer, mais perguntas apareciam.`,
+                frase: "O medo é a primeira barreira de todo herói."
+            },
+            /* 04 */
+            {
+                numero: "04",
+                nome: "O ENCONTRO COM O MENTOR",
+                titulo: "O homem que conhecia a verdade",
+                texto: `Investigando o símbolo, Gabriel conheceu Elias Torres, um antigo investigador.<br><br>Elias havia passado anos investigando uma organização secreta chamada Ordem Cinzenta.<br><br>Ele descobriu que a organização estava infiltrada em diferentes setores de Vespera.<br><br>Elias percebeu que Gabriel não desistiria da investigação.<br><br>Então decidiu ensiná-lo.`,
+                frase: "Antes de enfrentar seus inimigos, aprenda a compreender seus inimigos."
+            },
+            /* 05 */
+            {
+                numero: "05",
+                nome: "A TRAVESSIA DO PRIMEIRO LIMIAR",
+                titulo: "O nascimento do Guardião",
+                texto: `Depois de meses de treinamento, Gabriel percebeu que apenas investigar não seria suficiente.<br><br>Ele criou uma identidade secreta.<br><br>Sem poderes e sem qualquer habilidade sobrenatural, passou a usar inteligência, estratégia e treinamento para proteger as pessoas durante a noite.<br><br>Naquela noite nasceu o Guardião de Vespera.`,
+                frase: "Uma identidade pode esconder um rosto, mas não pode esconder uma escolha."
+            },
+            /* 06 */
+            {
+                numero: "06",
+                nome: "TESTES, ALIADOS E INIMIGOS",
+                titulo: "A cidade começa a responder",
+                texto: `O Guardião começou a investigar os criminosos que controlavam os bairros mais perigosos.<br><br>Durante uma investigação, Gabriel conheceu Luna Martins, uma jornalista que procurava pessoas desaparecidas.<br><br>Luna descobriu que os desaparecimentos estavam ligados à Ordem Cinzenta.<br><br>Pela primeira vez, Gabriel percebeu que precisaria de aliados.`,
+                frase: "Nenhum herói chega ao fim completamente sozinho."
+            },
+            /* 07 */
+            {
+                numero: "07",
+                nome: "APROXIMAÇÃO DA CAVERNA",
+                titulo: "Debaixo de Vespera",
+                texto: `As pistas levaram Gabriel e Luna para uma antiga estação subterrânea abandonada.<br><br>Debaixo da cidade existia uma enorme rede de túneis.<br><br>Dentro deles, Gabriel encontrou documentos que revelavam o verdadeiro plano da Ordem Cinzenta.<br><br>Eles queriam provocar uma crise em Vespera para assumir o controle da cidade.`,
+                frase: "Quanto mais perto da verdade, maior o perigo."
+            },
+            /* 08 */
+            {
+                numero: "08",
+                nome: "A PROVAÇÃO",
+                titulo: "A noite em que o Guardião caiu",
+                texto: `Gabriel foi descoberto.<br><br>Cercado pelos membros da Ordem Cinzenta, ele tentou escapar.<br><br>Mas perdeu seu equipamento e acabou gravemente derrotado.<br><br>Elias também foi capturado.<br><br>Pela primeira vez, Gabriel acreditou que talvez tivesse cometido um erro ao tentar enfrentar aquela organização.`,
+                frase: "Às vezes o herói precisa cair para descobrir quem realmente é."
+            },
+            /* 09 */
+            {
+                numero: "09",
+                nome: "A RECOMPENSA",
+                titulo: "A verdade por trás da máscara",
+                texto: `Gabriel conseguiu escapar dos túneis.<br><br>Luna havia encontrado uma informação escondida nos documentos.<br><br>O verdadeiro líder da Ordem Cinzenta era uma das pessoas mais respeitadas de Vespera.<br><br>Durante anos, ele havia construído uma imagem de homem honesto enquanto controlava secretamente a organização.`,
+                frase: "A verdade finalmente tinha um rosto."
+            },
+            /* 10 */
+            {
+                numero: "10",
+                nome: "O CAMINHO DE VOLTA",
+                titulo: "A última noite",
+                texto: `A cidade começou a entrar em caos.<br><br>A Ordem Cinzenta colocou seu plano em ação.<br><br>Sirenes tomaram as ruas.<br><br>Gabriel recuperou seu equipamento e voltou para a cidade.<br><br>Mas dessa vez ele não estava procurando apenas respostas.<br><br>Ele estava indo para o confronto final.`,
+                frase: "Não existe mais caminho de volta."
+            },
+            /* 11 */
+            {
+                numero: "11",
+                nome: "A RESSURREIÇÃO",
+                titulo: "O último confronto",
+                texto: `Gabriel encontrou o líder da Ordem Cinzenta no topo da antiga torre central de Vespera.<br><br>Os dois ficaram frente a frente.<br><br>Gabriel estava cansado e ferido.<br><br>Mesmo assim, decidiu continuar.<br><br>Enquanto Gabriel enfrentava o líder, Luna transmitia todas as provas da conspiração para os habitantes da cidade.<br><br>A verdade finalmente veio à tona.`,
+                frase: "O verdadeiro poder do herói estava em nunca desistir."
+            },
+            /* 12 */
+            {
+                numero: "12",
+                nome: "O RETORNO COM O ELIXIR",
+                titulo: "A lenda de Vespera",
+                texto: `A Ordem Cinzenta foi desmantelada.<br><br>A cidade finalmente conheceu a verdade.<br><br>Gabriel poderia abandonar sua identidade e voltar para sua antiga vida.<br><br>Mas decidiu continuar protegendo Vespera.<br><br>Algumas pessoas começaram a falar sobre uma figura que aparecia durante a noite.<br><br>Ninguém sabia quem ele realmente era.<br><br>Apenas sabiam seu nome: <strong>O GUARDIÃO.</strong>`,
+                frase: "O herói retorna para casa, mas nunca mais é a mesma pessoa."
+            }
+        ];
+
+        /* ==========================================
+           VARIÁVEIS GERAIS
+        ========================================== */
+        let faseAtual = 0;
+
+        const phaseNumber = document.getElementById("phaseNumber");
+        const bigNumber = document.getElementById("bigNumber");
+        const phaseName = document.getElementById("phaseName");
+        const phaseTitle = document.getElementById("phaseTitle");
+        const phaseText = document.getElementById("phaseText");
+        const quote = document.getElementById("quote");
+        const progressBar = document.getElementById("progressBar");
+        const dots = document.getElementById("dots");
+        const storyCard = document.querySelector(".story-card");
+        const nextButton = document.getElementById("nextButton");
+        const previousButton = document.getElementById("previousButton");
+        const startButton = document.getElementById("startButton");
+        const topButton = document.getElementById("topButton");
+
+        /* ==========================================
+           CRIAR OS PONTOS
+        ========================================== */
+        fases.forEach((fase, index) => {
+            const dot = document.createElement("button");
+            dot.classList.add("dot");
+            dot.type = "button";
+            dot.title = "Ir para a fase " + fase.numero;
+
+            dot.addEventListener("click", function () {
+                faseAtual = index;
+                mostrarFase();
+            });
+            dots.appendChild(dot);
+        });
+
+        /* ==========================================
+           MOSTRAR FASE
+        ========================================== */
+        function mostrarFase() {
+            const fase = fases[faseAtual];
+
+            phaseNumber.textContent = fase.numero;
+            bigNumber.textContent = fase.numero;
+            phaseName.textContent = fase.nome;
+            phaseTitle.textContent = fase.titulo;
+            phaseText.innerHTML = fase.texto;
+            quote.textContent = `"${fase.frase}"`;
+
+            const porcentagem = ((faseAtual + 1) / fases.length) * 100;
+            progressBar.style.width = porcentagem + "%";
+
+            const todosOsPontos = document.querySelectorAll(".dot");
+            todosOsPontos.forEach(function (dot, index) {
+                if (index === faseAtual) {
+                    dot.classList.add("active");
+                } else {
+                    dot.classList.remove("active");
+                }
+            });
+
+            storyCard.style.animation = "none";
+            void storyCard.offsetWidth;
+            storyCard.style.animation = "cardAppear 0.45s ease";
+
+            storyCard.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+
+        /* ==========================================
+           CONTROLES
+        ========================================== */
+        function proximaFase() {
+            if (faseAtual < 11) {
+                faseAtual++;
+                mostrarFase();
+            } else {
+                faseAtual = 0;
+                mostrarFase();
+            }
+        }
+
+        function faseAnterior() {
+            if (faseAtual > 0) {
+                faseAtual--;
+                mostrarFase();
+            } else {
+                faseAtual = 11;
+                mostrarFase();
+            }
+        }
+
+        nextButton.addEventListener("click", proximaFase);
+        previousButton.addEventListener("click", faseAnterior);
+
+        startButton.addEventListener("click", function () {
+            document.getElementById("jornada").scrollIntoView({ behavior: "smooth" });
+        });
+
+        topButton.addEventListener("click", function () {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "ArrowRight") proximaFase();
+            if (event.key === "ArrowLeft") faseAnterior();
+        });
+
+        /* ==========================================
+           SWIPE MOBILE
+        ========================================== */
+        let toqueInicial = 0;
+        let toqueFinal = 0;
+
+        storyCard.addEventListener("touchstart", function (event) {
+            toqueInicial = event.changedTouches[0].screenX;
+        }, { passive: true });
+
+        storyCard.addEventListener("touchend", function (event) {
+            toqueFinal = event.changedTouches[0].screenX;
+            const distancia = toqueFinal - toqueInicial;
+
+            if (Math.abs(distancia) < 50) return;
+
+            if (distancia < 0) {
+                proximaFase();
+            } else {
+                faseAnterior();
+            }
+        }, { passive: true });
+
+        /* INICIAR */
+        mostrarFase();
+    </script>
+</body>
+</html>
